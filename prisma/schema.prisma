@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model companies {
+  id                    Int                     @id @default(autoincrement())
+  company_id            Int                     @unique
+  company_name          String                  @db.VarChar(50)
+  c_logo                String?                 @db.VarChar(100)
+  favicon               String?                 @db.VarChar(100)
+  contact_email         String?                 @db.VarChar(150)
+  address               String?
+  created_at            DateTime?               @default(now()) @db.Timestamp(6)
+  updated_at            DateTime?               @default(now()) @db.Timestamp(6)
+  smtp_settings         smtp_settings[]
+  subscriber_management subscriber_management[]
+  users                 users[]
+}
+
+model latest_from_company {
+  id         Int       @id @default(autoincrement())
+  content    String?
+  image      String?   @db.VarChar(255)
+  gif        String?   @db.VarChar(255)
+  created_at DateTime? @default(now()) @db.Timestamp(6)
+  updated_at DateTime? @default(now()) @db.Timestamp(6)
+  is_active  Boolean?  @default(true)
+
+  created_by          Int?
+  recently_updated_by Int?
+
+  // Fixed unique relation names
+  createdBy users? @relation(name: "CreatedBy", fields: [created_by], references: [id], onUpdate: NoAction, map: "fk_created_by")
+  updatedBy users? @relation(name: "UpdatedBy", fields: [recently_updated_by], references: [id], onUpdate: NoAction, map: "fk_recently_updated_by")
+}
+
+model roles {
+  role_id   Int     @id @default(autoincrement())
+  role_name String  @unique(map: "unique_role_name") @db.VarChar(255)
+  users     users[]
+}
+
+model smtp_settings {
+  id            Int        @id @default(autoincrement())
+  company_id    Int?
+  smtp_host     String?    @db.VarChar(255)
+  smtp_port     Int?
+  smtp_server   String?    @db.VarChar(255)
+  smtp_name     String?    @db.VarChar(255)
+  smtp_email    String?    @db.VarChar(255)
+  smtp_password String?    @db.VarChar(255)
+  companies     companies? @relation(fields: [company_id], references: [id], onUpdate: NoAction, map: "fk_company")
+}
+
+model users {
+  id               Int                   @id @default(autoincrement())
+  user_id          String                @db.VarChar(50)
+  username         String                @db.VarChar(50)
+  email            String                @unique @db.VarChar(60)
+  role             Int
+  password         String                @db.VarChar(255)
+  company_id       Int?
+  created_at       DateTime?             @default(now()) @db.Timestamp(6)
+  updated_at       DateTime?             @default(now()) @db.Timestamp(6)
+  is_active        Boolean?              @default(true)
+  createdCompanies latest_from_company[] @relation(name: "CreatedBy")
+  updatedCompanies latest_from_company[] @relation(name: "UpdatedBy")
+  blog             blog[]
+
+  companies companies? @relation(fields: [company_id], references: [id], onUpdate: NoAction, map: "fk_company")
+  roles     roles      @relation(fields: [role], references: [role_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_role")
+}
+
+model blog {
+  id           Int       @id @default(autoincrement())
+  user_id      Int
+  blog_content Json
+  active       Boolean?  @default(true)
+  created_at   DateTime? @default(now()) @db.Timestamp(6)
+  updated_at   DateTime? @default(now()) @db.Timestamp(6)
+  users        users     @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "fk_user")
+}
+
+model subscriber_management {
+  id                Int        @id @default(autoincrement())
+  subscriber_email  String     @unique @db.VarChar(255)
+  company_id        Int?
+  subscription_date DateTime?  @default(now()) @db.Timestamp(6)
+  updated_at        DateTime?  @default(now()) @db.Timestamp(6)
+  is_active         Boolean?   @default(true)
+  companies         companies? @relation(fields: [company_id], references: [id], map: "fk_company")
+}

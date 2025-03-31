@@ -1,0 +1,13 @@
+
+
+.parent > *:nth-child(n+2),.parent  {
+    padding: 3%;
+}
+.parent > *:first-child>*,.parent > *:nth-child(3){
+    padding: 5%;
+}
+.flex>* {
+   padding: 5%;
+}
+
+

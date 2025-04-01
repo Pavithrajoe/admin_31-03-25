@@ -71,7 +71,7 @@ export default function SubscribersPage() {
                     <td>{new Date(subscriber.subscription_date).toLocaleDateString()}</td>
                     <td>{new Date(subscriber.updated_at).toLocaleDateString()}</td>
                     <td>
-                      <span className={`status-badge ${subscriber.is_active ? "active-badge" : "inactive-badge"}`}>
+                      <span className={`badge ${subscriber.is_active ? "badge-active" : "badge-inactive"}`}>
                         {subscriber.is_active ? "Active" : "Inactive"}
                       </span>
                     </td>
@@ -121,23 +121,21 @@ export default function SubscribersPage() {
           height: 50px;
         }
 
-        .status-badge {
-          display: inline-block;
-          padding: 8px 16px;
-          border-radius: 17px;
+        .badge {
+          font-size: 12px;
           font-weight: bold;
+          padding: 7px 14px;
+          border-radius: 18px;
+        }
+
+        .badge-active {
+          background-color: #28a745 ; /* Green for Active */
           color: white;
-          text-align: center;
-          min-width: 80px;
-          font-size: 14px; 
         }
 
-        .active-badge {
-          background-color: rgb(21, 141, 77);
-        }
-
-        .inactive-badge {
-          background-color: rgb(179, 34, 29);
+        .badge-inactive {
+          background-color: #dc3545; /* Red for Inactive */
+          color: white;
         }
       `}</style>
     </div>

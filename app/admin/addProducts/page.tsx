@@ -35,42 +35,46 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto grid place-items-center ">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <h1>Add Product</h1>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <form 
+        onSubmit={handleSubmit} 
+        className="bg-white p-6 rounded-lg shadow-md w-full max-w-lg"
+      >
+        <h1 className="text-2xl font-semibold mb-4 text-center">Add Product</h1>
+
         <div>
-          
-          <label className="block mb-2">Upload Image:</label>
+          <label className="block font-medium mb-2">Upload Image:</label>
           <input
             type="file"
             accept="image/jpeg,image/png,image/webp"
             onChange={(e) => setProduct({...product, image: e.target.files?.[0] || null})}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
 
-        <div>
-          <label className="block mb-2">Upload Gif:</label>
+        <div className="mt-4">
+          <label className="block font-medium mb-2">Upload Gif:</label>
           <input
             type="file"
             accept="image/gif"
             onChange={(e) => setProduct({...product, gif: e.target.files?.[0] || null})}
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
-        <div>
-          <label className="block mb-2">Content:</label>
-          <textarea
-            value={product.content}
-            onChange={(e) => setProduct({...product, content: e.target.value})}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
 
-        <div className="flex items-center">
+        <div className="mt-4">
+          <label className="block font-medium mb-2">Content:</label>
+          <textarea
+            value={product.content}
+            onChange={(e) => setProduct({...product, content: e.target.value})}
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+          />
+        </div>
+
+        <div className="flex items-center mt-4">
           <input
             type="checkbox"
             id="is_active"
@@ -78,17 +82,17 @@ const AddProduct = () => {
             onChange={(e) => setProduct({...product, is_active: e.target.checked})}
             className="mr-2"
           />
-          <label htmlFor="is_active">Active</label>
+          <label htmlFor="is_active" className="font-medium">Active</label>
         </div>
 
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+          className="w-full mt-6 bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition duration-200"
         >
-        Add Product 
+          Add Product
         </button>
       </form>
-      {error && <p className="mt-4 text-red-500">{error}</p>}
+      {error && <p className="mt-4 text-red-500 text-center">{error}</p>}
     </div>
   );
 };

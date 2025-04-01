@@ -147,5 +147,8 @@ function SidebarItem({ label, path, active }: SidebarItemProps) {
         {label}
       </a>
     </li>
-  );
+  );
 }
+
+
+

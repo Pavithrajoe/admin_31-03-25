@@ -64,6 +64,7 @@ export default function UserManagement() {
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>{user.role}</td>
+
                   <td>
                     <span className={`badge ${user.status === "Active" ? "bg-success" : "bg-danger"}`}>
                       {user.status}
@@ -99,6 +100,24 @@ export default function UserManagement() {
         .custom-add-button:hover {
           background: linear-gradient(to right, #003d5c, #006f99);
         }
+        
+        .badge {
+        font-size: 12px;
+        font-weight: bold;
+        padding: 7px 14px;
+        border-radius: 18px;
+      }
+
+      .badge-active {
+        background-color: #28a745; /* Green for Active */
+        color: white;
+      }
+
+      .badge-inactive {
+        background-color: #dc3545; /* Red for Inactive */
+        color: white;
+      }
+
       `}</style>
     </div>
   );
